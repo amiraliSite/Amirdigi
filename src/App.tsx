@@ -10,6 +10,7 @@ import {
 import { FaTelegram, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 import img from '../public/Gemini_Generated_Image_gz8n0ugz8n0ugz8n.png'
+
 // ============ TYPES ============
 type Theme = "light" | "dark";
 type Lang = "fa" | "en";
@@ -143,16 +144,16 @@ const LoadingScreen = ({ onFinish }: { onFinish: () => void }) => {
     <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.5 }} className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 overflow-hidden">
       <motion.div animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }} transition={{ duration: 16, repeat: Infinity }} className="absolute top-20 right-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-screen filter blur-3xl opacity-30" />
       <motion.div animate={{ scale: [1, 1.3, 1], rotate: [360, 180, 0] }} transition={{ duration: 12, repeat: Infinity, delay: 1 }} className="absolute bottom-20 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-screen filter blur-3xl opacity-30" />
-      <div className="relative z-10 text-center">
+      <div className="relative z-10 text-center px-4">
         <motion.div animate={{ rotate: 360 }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }} className="relative mb-8 inline-block">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur-2xl opacity-50 animate-pulse" />
           <div className="relative w-28 h-28 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center">
             <span className="text-4xl font-black text-gradient">DA</span>
           </div>
         </motion.div>
-        <h1 className="text-5xl md:text-6xl font-black text-white mb-2">{lang === 'fa' ? 'دیجی' : 'Digi'} <span className="text-gradient">{lang === 'fa' ? 'امیر' : 'Amir'}</span></h1>
-        <p className="text-white/60 mb-8 text-lg">{t.loading}</p>
-        <div className="w-80 max-w-xs mx-auto">
+        <h1 className="text-4xl md:text-6xl font-black text-white mb-2">{lang === 'fa' ? 'دیجی' : 'Digi'} <span className="text-gradient">{lang === 'fa' ? 'امیر' : 'Amir'}</span></h1>
+        <p className="text-white/60 mb-8 text-base md:text-lg">{t.loading}</p>
+        <div className="w-full max-w-xs mx-auto">
           <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
             <motion.div className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.1 }} />
           </div>
@@ -164,7 +165,6 @@ const LoadingScreen = ({ onFinish }: { onFinish: () => void }) => {
 };
 
 // ============ NAVBAR ============ 
-
 const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) => {
   const { theme, toggle } = useTheme();
   const { lang, toggle: toggleLang, t } = useLang();
@@ -322,7 +322,7 @@ const AuthModal = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-md glass rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-gray-800/50 max-h-[90vh] overflow-y-auto">
+      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-md glass rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20 dark:border-gray-800/50 max-h-[90vh] overflow-y-auto">
         <motion.button whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={onClose} className="absolute top-4 left-4 w-10 h-10 rounded-xl hover:bg-red-500/10 flex items-center justify-center">
           <X size={20} />
         </motion.button>
@@ -401,7 +401,7 @@ const CartModal = ({ onClose, onAuth }: { onClose: () => void; onAuth: () => voi
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-lg glass rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-gray-800/50 max-h-[90vh] overflow-y-auto">
+      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-lg glass rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20 dark:border-gray-800/50 max-h-[90vh] overflow-y-auto">
         <motion.button whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={onClose} className="absolute top-4 left-4 w-10 h-10 rounded-xl hover:bg-red-500/10 flex items-center justify-center">
           <X size={20} />
         </motion.button>
@@ -517,32 +517,32 @@ const Hero = ({ onAuth }: { onAuth: () => void }) => {
     <section id="home" className="relative min-h-screen flex items-center pt-20 pb-32 overflow-hidden">
       <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, -30, 0] }} transition={{ duration: 10, repeat: Infinity }} className="absolute top-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl" />
       <motion.div animate={{ scale: [1, 1.3, 1], x: [0, -50, 0], y: [0, 30, 0] }} transition={{ duration: 12, repeat: Infinity, delay: 2 }} className="absolute bottom-20 left-10 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl" />
-      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
         <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.8 }}>
           <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
             <Zap size={16} className="text-yellow-500" /><span className="text-sm font-bold">{t.hero.badge}</span>
           </motion.div>
-          <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
             {t.hero.title1} <span className="text-gradient">{t.hero.title2}</span> {t.hero.title3} <br /> {t.hero.title4}
           </h1>
-          <p className="text-lg opacity-70 mb-8 leading-relaxed">{t.hero.desc}</p>
+          <p className="text-base md:text-lg opacity-70 mb-8 leading-relaxed">{t.hero.desc}</p>
           <div className="flex flex-wrap gap-4">
-            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} className="px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold shadow-lg shadow-brand-500/30">
+            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} className="px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold shadow-lg shadow-brand-500/30">
               {t.hero.btn1}
             </motion.button>
-            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 255, 255, 0.2)" }} whileTap={{ scale: 0.95 }} onClick={onAuth} className="px-8 py-4 rounded-2xl glass font-bold">
+            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 255, 255, 0.2)" }} whileTap={{ scale: 0.95 }} onClick={onAuth} className="px-6 md:px-8 py-3 md:py-4 rounded-2xl glass font-bold">
               {t.hero.btn2}
             </motion.button>
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.8, delay: 0.2 }} className="relative">
-          <div className="relative w-full aspect-square max-w-md mx-auto">
+          <div className="relative w-full aspect-square max-w-xs md:max-w-md mx-auto">
             <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-[3rem] blur-2xl opacity-30" />
-            <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="relative glass rounded-[3rem] p-8 h-full flex items-center justify-center border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)]">
+            <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="relative glass rounded-[3rem] p-6 md:p-8 h-full flex items-center justify-center border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)]">
               <div className="text-center">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjKTzCmmNLISzvHfG33wlp2K1Rg2oGQV8vHPXD0yYRJA&s=10" alt="Shopping" className="w-84 h-84 object-cover rounded-3xl mb-4 mx-auto shadow-xl" />
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjKTzCmmNLISzvHfG33wlp2K1Rg2oGQV8vHPXD0yYRJA&s=10" alt="Shopping" className="w-full max-w-[200px] md:max-w-[300px] h-auto object-cover rounded-3xl mb-4 mx-auto shadow-xl" />
                 <div className="flex justify-center gap-2 mb-4">{[1,2,3,4,5].map(i => <Star key={i} size={24} className="fill-yellow-400 text-yellow-400" />)}</div>
-                <p className="text-2xl font-black">{useLang().lang === 'fa' ? '+۱۰,۰۰۰' : '+10,000'} {useLang().lang === 'fa' ? 'مشتری راضی' : 'Happy Customers'}</p>
+                <p className="text-xl md:text-2xl font-black">{useLang().lang === 'fa' ? '+۱۰,۰۰۰' : '+10,000'} {useLang().lang === 'fa' ? 'مشتری راضی' : 'Happy Customers'}</p>
               </div>
             </motion.div>
           </div>
@@ -562,7 +562,7 @@ const Features = () => {
   ];
   return (
     <section className="py-20 max-w-7xl mx-auto px-4">
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {items.map((it, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.05, y: -10, boxShadow: "0 0 25px rgba(99, 102, 241, 0.4)" }} className="glass rounded-3xl p-6 cursor-pointer border border-transparent hover:border-brand-500/50 transition-colors">
             <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }} className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${it.color} flex items-center justify-center mb-4 shadow-lg`}>
@@ -603,12 +603,12 @@ const ProductSlider = () => {
   return (
     <section id="products" className="py-20 max-w-7xl mx-auto px-4">
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-black mb-4">{t.products.title} <span className="text-gradient">{t.products.subtitle}</span></h2>
+        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.products.title} <span className="text-gradient">{t.products.subtitle}</span></h2>
         <p className="opacity-60 mb-8">{t.products.desc}</p>
       </motion.div>
 
       <div className="relative max-w-4xl mx-auto" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
-        <div className="glass rounded-[3rem] p-8 md:p-12 border border-white/20 shadow-[0_0_50px_rgba(99,102,241,0.2)] overflow-hidden relative">
+        <div className="glass rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 border border-white/20 shadow-[0_0_50px_rgba(99,102,241,0.2)] overflow-hidden relative">
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentProduct.id}
@@ -616,25 +616,25 @@ const ProductSlider = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-              className="grid md:grid-cols-2 gap-8 items-center"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
             >
-              <div className="order-2 md:order-1 space-y-6">
+              <div className="order-2 md:order-1 space-y-6 text-center md:text-right">
                 <div className="inline-block px-4 py-1 rounded-full bg-red-500/20 text-red-500 font-bold text-sm">-{currentProduct.discount}% OFF</div>
-                <h3 className="text-3xl md:text-4xl font-black">{currentProduct.name[lang]}</h3>
-                <div className="flex items-center gap-2">
+                <h3 className="text-2xl md:text-4xl font-black">{currentProduct.name[lang]}</h3>
+                <div className="flex items-center justify-center md:justify-start gap-2">
                   <div className="flex text-yellow-400"><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /></div>
                   <span className="font-bold">{currentProduct.rating}</span>
                 </div>
-                <div className="flex items-end gap-4">
-                  <span className="text-3xl font-black text-brand-500">{currentProduct.price}</span>
-                  <span className="text-lg line-through opacity-50">{currentProduct.old}</span>
+                <div className="flex items-end justify-center md:justify-start gap-4">
+                  <span className="text-2xl md:text-3xl font-black text-brand-500">{currentProduct.price}</span>
+                  <span className="text-base md:text-lg line-through opacity-50">{currentProduct.old}</span>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex justify-center md:justify-start gap-3">
                   <motion.button 
                     whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.6)" }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => { add(currentProduct); addToast(t.toast.addedCart, 'success'); }}
-                    className="flex-1 md:flex-none px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold flex items-center justify-center gap-2"
+                    className="flex-1 md:flex-none px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold flex items-center justify-center gap-2"
                   >
                     <ShoppingCart size={20} /> {t.products.addCart}
                   </motion.button>
@@ -642,7 +642,7 @@ const ProductSlider = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => toggleWishlist(currentProduct.id)}
-                    className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-colors ${isWishlisted ? 'bg-red-500/20 border-red-500 text-red-500' : 'glass border-white/20 text-gray-400 hover:text-red-500'}`}
+                    className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center border transition-colors ${isWishlisted ? 'bg-red-500/20 border-red-500 text-red-500' : 'glass border-white/20 text-gray-400 hover:text-red-500'}`}
                   >
                     <Heart size={24} fill={isWishlisted ? "currentColor" : "none"} />
                   </motion.button>
@@ -655,15 +655,15 @@ const ProductSlider = () => {
                     animate={{ scale: 1, opacity: 1 }}
                     src={currentProduct.img} 
                     alt={currentProduct.name[lang]} 
-                    className="w-64 h-64 md:w-80 md:h-80 object-cover rounded-3xl shadow-2xl"
+                    className="w-48 h-48 md:w-80 md:h-80 object-cover rounded-3xl shadow-2xl"
                   />
                 </TiltCard>
               </div>
             </motion.div>
           </AnimatePresence>
           
-          <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors z-10"><ChevronLeft size={15} /></button>
-          <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors z-10"><ChevronRight size={15} /></button>
+          <button onClick={prevSlide} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors z-10"><ChevronLeft size={15} /></button>
+          <button onClick={nextSlide} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors z-10"><ChevronRight size={15} /></button>
           
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
             {PRODUCTS.map((_, i) => (
@@ -681,7 +681,7 @@ const Categories = () => {
   return (
     <section id="categories" className="py-20 max-w-7xl mx-auto px-4">
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-black mb-4">{t.categories.title} <span className="text-gradient">{t.categories.subtitle}</span></h2>
+        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.categories.title} <span className="text-gradient">{t.categories.subtitle}</span></h2>
         <p className="opacity-60">{t.categories.desc}</p>
       </motion.div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -701,7 +701,7 @@ const Offers = () => {
   const { t } = useLang();
   return (
     <section id="offers" className="py-20 max-w-7xl mx-auto px-4">
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.2 }} className="relative glass rounded-[3rem] p-8 md:p-12 overflow-hidden border border-white/10">
+      <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.2 }} className="relative glass rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 overflow-hidden border border-white/10">
         <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute top-0 right-0 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl" />
         <motion.div animate={{ scale: [1, 1.3, 1], x: [0, -50, 0] }} transition={{ duration: 10, repeat: Infinity }} className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl" />
         <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
@@ -709,14 +709,14 @@ const Offers = () => {
             <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 text-red-500 mb-4">
               <Tag size={16} /><span className="text-sm font-bold">{t.offers.badge}</span>
             </motion.div>
-            <h2 className="text-4xl md:text-5xl font-black mb-4">{t.offers.title1} <span className="text-gradient">{t.offers.title2}</span> {t.offers.title3}</h2>
+            <h2 className="text-3xl md:text-5xl font-black mb-4">{t.offers.title1} <span className="text-gradient">{t.offers.title2}</span> {t.offers.title3}</h2>
             <p className="opacity-70 mb-6">{t.offers.desc}</p>
-            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} className="px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold">
+            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} className="px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold">
               {t.offers.btn}
             </motion.button>
           </motion.div>
           <motion.div animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }} transition={{ duration: 4, repeat: Infinity }} className="text-center">
-            <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=500&h=500&fit=crop" alt="Gift" className="w-64 h-64 object-cover rounded-full mx-auto shadow-2xl shadow-pink-500/20" />
+            <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=500&h=500&fit=crop" alt="Gift" className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-full mx-auto shadow-2xl shadow-pink-500/20" />
           </motion.div>
         </div>
       </motion.div>
@@ -728,15 +728,15 @@ const About = () => {
   const { t } = useLang();
   return (
     <section id="about" className="py-20 max-w-7xl mx-auto px-4">
-      <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }}>
-          <h2 className="text-4xl md:text-5xl font-black mb-6">{t.about.title} <span className="text-gradient">{t.about.subtitle}</span></h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-6">{t.about.title} <span className="text-gradient">{t.about.subtitle}</span></h2>
           <p className="opacity-70 mb-4 leading-relaxed">{t.about.p1}</p>
           <p className="opacity-70 mb-6 leading-relaxed">{t.about.p2}</p>
           <div className="grid grid-cols-3 gap-4">
             {t.about.stats.map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.1, y: -5, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} className="glass rounded-2xl p-4 text-center border border-white/10">
-                <div className="text-2xl font-black text-brand-500">{s.n}</div>
+                <div className="text-xl md:text-2xl font-black text-brand-500">{s.n}</div>
                 <div className="text-xs opacity-60">{s.l}</div>
               </motion.div>
             ))}
@@ -744,9 +744,9 @@ const About = () => {
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} className="relative">
           <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-[3rem] blur-2xl opacity-30" />
-          <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="relative glass rounded-[3rem] p-12 text-center border border-white/20 shadow-[0_0_30px_rgba(236,72,153,0.2)]">
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=500&fit=crop" alt="Store" className="w-64 h-64 object-cover rounded-3xl mb-4 mx-auto" />
-            <h3 className="text-2xl font-black mb-2">{t.about.badge}</h3>
+          <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="relative glass rounded-[3rem] p-8 md:p-12 text-center border border-white/20 shadow-[0_0_30px_rgba(236,72,153,0.2)]">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=500&fit=crop" alt="Store" className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-3xl mb-4 mx-auto" />
+            <h3 className="text-xl md:text-2xl font-black mb-2">{t.about.badge}</h3>
             <p className="opacity-60">{t.about.badgeDesc}</p>
           </motion.div>
         </motion.div>
@@ -760,10 +760,10 @@ const Blog = () => {
   return (
     <section id="blog" className="py-20 max-w-7xl mx-auto px-4">
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-black mb-4">{t.blog.title} <span className="text-gradient">{t.blog.subtitle}</span></h2>
+        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.blog.title} <span className="text-gradient">{t.blog.subtitle}</span></h2>
         <p className="opacity-60">{t.blog.desc}</p>
       </motion.div>
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {BLOG_POSTS.map((p, i) => (
           <motion.article key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.05, y: -10, boxShadow: "0 0 25px rgba(99, 102, 241, 0.3)" }} className="glass rounded-3xl overflow-hidden cursor-pointer border border-transparent hover:border-brand-500/30 transition-colors">
             <div className="overflow-hidden">
@@ -797,10 +797,10 @@ const Contact = () => {
   return (
     <section id="contact" className="py-20 max-w-7xl mx-auto px-4">
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-black mb-4">{t.contact.title} <span className="text-gradient">{t.contact.subtitle}</span></h2>
+        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.contact.title} <span className="text-gradient">{t.contact.subtitle}</span></h2>
         <p className="opacity-60">{t.contact.desc}</p>
       </motion.div>
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-4">
           {[{ icon: MapPin, title: t.contact.addr.title, desc: t.contact.addr.desc }, { icon: Phone, title: t.contact.phone.title, desc: t.contact.phone.desc }, { icon: Mail, title: t.contact.email.title, desc: t.contact.email.desc }].map((c, i) => (
             <motion.div key={i} initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.05, x: 10, boxShadow: "0 0 20px rgba(99, 102, 241, 0.2)" }} className="glass rounded-2xl p-6 flex items-center gap-4 border border-white/10">
@@ -815,7 +815,7 @@ const Contact = () => {
             <motion.a href="#" whileHover={{ scale: 1.2, rotate: 15, boxShadow: "0 0 15px rgba(236, 72, 153, 0.5)" }} whileTap={{ scale: 0.9 }} className="w-12 h-12 rounded-xl glass flex items-center justify-center border border-white/10"><FaInstagram size={20} className="text-pink-600" /></motion.a>
           </div>
         </div>
-        <motion.form initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} onSubmit={handleSubmit} className="glass rounded-3xl p-8 space-y-4 border border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.1)]">
+        <motion.form initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} onSubmit={handleSubmit} className="glass rounded-3xl p-6 md:p-8 space-y-4 border border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.1)]">
           <motion.input whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} type="text" placeholder={t.contact.form.name} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <motion.input whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} type="email" placeholder={t.contact.form.email} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <motion.textarea whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} placeholder={t.contact.form.msg} value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} required rows={5} className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none" />
@@ -834,7 +834,7 @@ const FAQ = () => {
   return (
     <section id="faq" className="py-20 max-w-4xl mx-auto px-4">
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-black mb-4">{t.faq.title} <span className="text-gradient">{t.faq.subtitle}</span></h2>
+        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.faq.title} <span className="text-gradient">{t.faq.subtitle}</span></h2>
         <p className="opacity-60">{t.faq.desc}</p>
       </motion.div>
       <div className="space-y-4">
@@ -863,7 +863,7 @@ const Footer = () => {
   return (
     <footer className="glass border-t border-white/10 mt-20 py-12 pb-12">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }}>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black shadow-lg shadow-brand-500/30">DA</div>
@@ -900,11 +900,11 @@ const Footer = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="border-t border-white/10 pt-8 mb-6">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
             <motion.div whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(236, 72, 153, 0.5)" }} className="relative rounded-full p-1 bg-gradient-to-r from-indigo-500 to-pink-500">
-              <img src={img} alt="Amir Ali Mohammadi" className="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-gray-900 animate-bounce " />
+              <img src={img} alt="Amir Ali Mohammadi" className="relative w-24 h-24 md:w-40 md:h-40 rounded-full object-cover border-4 border-white dark:border-gray-900 animate-bounce" />
             </motion.div>
             <div className="text-center">
               <a href="https://amirresume.netlify.app" rel='noopener noreferrer' target='_blank'
-               className="text-lg font-bold text-gradient mb-1 animate-float">{t.footer.creator}</a>
+               className="text-lg font-bold text-gradient mb-1 animate-float block">{t.footer.creator}</a>
               <div className="flex items-center justify-center gap-3">
                 <motion.a href="https://linkedin.com/in/amirali-react87" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2, boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)" }} className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-500/20 transition-colors border border-white/10"><FaLinkedin size={18} className="text-blue-600" /></motion.a>
                 <motion.a href="https://www.instagram.com/amir_site2026" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2, boxShadow: "0 0 15px rgba(236, 72, 153, 0.5)" }} className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-500/20 transition-colors border border-white/10"><FaInstagram size={18} className="text-pink-600" /></motion.a>
