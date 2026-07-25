@@ -171,8 +171,8 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
   const { lang, toggle: toggleLang, t } = useLang();
   const { user, logout } = useAuth();
   const { items } = useCart();
-  
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isRTL = lang === 'fa';
 
   const links = [
     { id: "home", label: t.nav.home, icon: Home }, 
@@ -187,171 +187,178 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
 
   const scrollTo = (id: string) => { 
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setIsDrawerOpen(false);
+    setMenuOpen(false);
+  };
+
+  // قفل اسکرول بدن
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [menuOpen]);
+
+  // استایل inline برای منوی کشویی - 100% تضمینی
+  const drawerStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: 0,
+    bottom: 0, // این مهمه! به جای height: 100vh
+    [isRTL ? 'right' : 'left']: 0,
+    width: 'min(300px, 85vw)', // هر کدوم کوچیکتره
+    maxWidth: '300px',
+    zIndex: 9999,
+    transform: menuOpen ? 'translateX(0)' : `translateX(${isRTL ? '100%' : '-100%'})`,
+    transition: 'transform 0.3s ease-in-out',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
   };
 
   return (
     <>
-      <motion.nav initial={{ y: -100 }} animate={{ y: 0 }} className="fixed top-0 inset-x-0 z-50 glass shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      {/* نوار بالا */}
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           
-          {/* Mobile Hamburger Button */}
-          <motion.button 
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setIsDrawerOpen(true)}
-            className="lg:hidden w-10 h-10 rounded-xl glass hover:bg-brand-500/10 flex items-center justify-center ml-2"
+          {/* همبرگر (فقط موبایل) */}
+          <button 
+            onClick={() => setMenuOpen(true)}
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            aria-label="Open menu"
           >
             <Menu size={24} />
-          </motion.button>
+          </button>
 
-          <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black shrink-0">DA</div>
-            <span className="text-lg sm:text-xl font-black text-gradient hidden sm:block truncate">{t.brand}</span>
-          </motion.div>
+          {/* لوگو */}
+          <div className="flex items-center gap-2">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm">DA</div>
+            <span className="text-lg font-bold hidden sm:block">{t.brand}</span>
+          </div>
           
+          {/* لینک‌های دسکتاپ */}
           <div className="hidden lg:flex items-center gap-1">
-            {links.map((l, i) => (
-              <motion.button key={l.id} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.1, y: -2 }} onClick={() => scrollTo(l.id)} className="px-3 py-2 rounded-lg hover:bg-brand-500/10 transition-colors font-medium text-sm whitespace-nowrap">
+            {links.map((l) => (
+              <button key={l.id} onClick={() => scrollTo(l.id)} className="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-medium">
                 {l.label}
-              </motion.button>
+              </button>
             ))}
           </div>
           
-          <div className="flex items-center gap-1 sm:gap-2">
-            {/* Language: Hidden on mobile, visible on sm+ */}
-            <motion.button whileHover={{ scale: 1.1, rotate: 180 }} whileTap={{ scale: 0.9 }} onClick={toggleLang} className="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors items-center justify-center">
-              <Globe size={18} />
-            </motion.button>
-            
-            {/* Theme: Hidden on mobile, visible on sm+ */}
-            <motion.button whileHover={{ scale: 1.1, rotate: theme === 'dark' ? 0 : 180 }} whileTap={{ scale: 0.9 }} onClick={toggle} className="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors items-center justify-center">
-              <AnimatePresence mode="wait">
-                {theme === "dark" ? (
-                  <motion.div key="sun" initial={{ rotate: -180, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 180, opacity: 0 }}><Sun size={20} /></motion.div>
-                ) : (
-                  <motion.div key="moon" initial={{ rotate: -180, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 180, opacity: 0 }}><Moon size={20} /></motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
-
-            {/* Cart: ALWAYS visible (Mobile & Desktop) */}
-            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onCart} className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center relative">
+          {/* دکمه‌های راست */}
+          <div className="flex items-center gap-2">
+            <button onClick={toggleLang} className="hidden sm:flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+              <Globe size={20} />
+            </button>
+            <button onClick={toggle} className="hidden sm:flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button onClick={onCart} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 relative">
               <ShoppingCart size={20} />
-              <AnimatePresence>
-                {items.length > 0 && (
-                  <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 text-white text-[10px] rounded-full flex items-center justify-center">{items.length}</motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
-
-            {/* Desktop Auth Only */}
+              {items.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 text-white text-xs rounded-full flex items-center justify-center">
+                  {items.length}
+                </span>
+              )}
+            </button>
             {user ? (
               <div className="hidden md:flex items-center gap-2">
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="px-3 py-2 rounded-xl glass flex items-center gap-2">
-                  <User size={16} /><span className="text-sm font-medium truncate max-w-[100px]">{user.name}</span>
-                </motion.div>
-                <motion.button whileHover={{ scale: 1.1, rotate: 180 }} whileTap={{ scale: 0.9 }} onClick={logout} className="w-10 h-10 rounded-xl glass hover:bg-red-500/10 transition-colors flex items-center justify-center text-red-500">
-                  <LogOut size={18} />
-                </motion.button>
+                <span className="text-sm font-medium truncate max-w-[100px]">{user.name}</span>
+                <button onClick={logout} className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500">
+                  <LogOut size={20} />
+                </button>
               </div>
             ) : (
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onAuth} className="hidden md:inline-flex px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold text-sm whitespace-nowrap">
-                {lang === 'fa' ? 'ورود / ثبت‌نام' : 'Login / Register'}
-              </motion.button>
+              <button onClick={onAuth} className="hidden md:block px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold text-sm">
+                {lang === 'fa' ? 'ورود' : 'Login'}
+              </button>
             )}
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
-      {/* منوی همبرگری کشویی موبایل */}
-      <AnimatePresence>
-        {isDrawerOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsDrawerOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
-            />
-            
-            <motion.div 
-              initial={{ x: lang === 'fa' ? '100%' : '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: lang === 'fa' ? '100%' : '-100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className={`fixed top-0 ${lang === 'fa' ? 'right-0' : 'left-0'} bottom-0 w-[80%] max-w-xs z-[70] glass border-l border-r border-white/20 shadow-2xl lg:hidden flex flex-col`}
+      {/* منوی کشویی - با inline style که 100% کار می‌کنه */}
+      {menuOpen && (
+        <div 
+          onClick={() => setMenuOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 9998,
+          }}
+          className="lg:hidden"
+        />
+      )}
+      
+      <div 
+        style={drawerStyle}
+        className="bg-white dark:bg-gray-900 shadow-2xl lg:hidden"
+      >
+        {/* هدر */}
+        <div className="h-16 px-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-800 flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs">DA</div>
+            <span className="font-bold">{t.brand}</span>
+          </div>
+          <button 
+            onClick={() => setMenuOpen(false)} 
+            className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500"
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* لینک‌ها */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-1">
+          {links.map((l) => (
+            <button
+              key={l.id}
+              onClick={() => scrollTo(l.id)}
+              className="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-start"
             >
-              <div className="p-6 flex items-center justify-between border-b border-white/10">
-                 <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black">DA</div>
-                    <span className="font-black text-lg text-gradient">{t.brand}</span>
-                 </div>
-                 <button onClick={() => setIsDrawerOpen(false)} className="w-8 h-8 rounded-lg hover:bg-red-500/20 flex items-center justify-center text-red-500">
-                   <X size={20} />
-                 </button>
-              </div>
+              <l.icon size={20} className="text-indigo-500 flex-shrink-0" />
+              <span className="font-medium text-sm">{l.label}</span>
+            </button>
+          ))}
+        </div>
 
-              <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                {links.map((l, i) => (
-                  <motion.button
-                    key={l.id}
-                    initial={{ opacity: 0, x: lang === 'fa' ? 20 : -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    onClick={() => scrollTo(l.id)}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors text-right"
-                  >
-                    <l.icon size={20} className="text-brand-500" />
-                    <span className="font-medium">{l.label}</span>
-                  </motion.button>
-                ))}
-              </div>
-
-              <div className="p-4 border-t border-white/10 space-y-3">
-                {/* Theme & Language Toggles inside Drawer */}
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 mb-2">
-                  <button onClick={toggleLang} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors flex-1 justify-center">
-                    <Globe size={18} />
-                    <span className="text-sm font-medium">{lang === 'fa' ? 'English' : 'فارسی'}</span>
-                  </button>
-                  <div className="w-px h-6 bg-white/10"></div>
-                  <button onClick={toggle} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors flex-1 justify-center">
-                    {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-                    <span className="text-sm font-medium">{theme === 'dark' ? (lang==='fa'?'روز':'Light') : (lang==='fa'?'شب':'Dark')}</span>
-                  </button>
-                </div>
-
-                {/* User Auth Section */}
-                {user ? (
-                  <div className="space-y-3">
-                     <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold shrink-0">
-                          {user.name.charAt(0).toUpperCase()}
-                        </div>
-                        <div className="flex-1 min-w-0 text-right">
-                           <p className="font-bold text-sm truncate">{user.name}</p>
-                           <p className="text-xs opacity-60 truncate">{user.email}</p>
-                        </div>
-                     </div>
-                     <button onClick={() => { logout(); setIsDrawerOpen(false); }} className="w-full py-3 rounded-xl bg-red-500/10 text-red-500 font-bold flex items-center justify-center gap-2">
-                        <LogOut size={18} /> {t.nav.profile}
-                     </button>
-                  </div>
-                ) : (
-                  <button onClick={() => { onAuth(); setIsDrawerOpen(false); }} className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold">
-                    {lang === 'fa' ? 'ورود / ثبت‌نام' : 'Login / Register'}
-                  </button>
-                )}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+        {/* فوتر */}
+        <div className="p-4 border-t border-gray-200 dark:border-gray-800 space-y-2 flex-shrink-0">
+          <div className="flex gap-2">
+            <button onClick={toggleLang} className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
+              <Globe size={16} />
+              <span className="text-xs font-medium">{lang === 'fa' ? 'EN' : 'FA'}</span>
+            </button>
+            <button onClick={toggle} className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              <span className="text-xs font-medium">{theme === 'dark' ? '☀️' : '🌙'}</span>
+            </button>
+          </div>
+          {user ? (
+            <button onClick={() => { logout(); setMenuOpen(false); }} className="w-full py-2 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 font-bold text-sm">
+              {lang === 'fa' ? 'خروج' : 'Logout'}
+            </button>
+          ) : (
+            <button onClick={() => { onAuth(); setMenuOpen(false); }} className="w-full py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold text-sm">
+              {lang === 'fa' ? 'ورود / ثبت‌نام' : 'Login / Register'}
+            </button>
+          )}
+        </div>
+      </div>
     </>
   );
 };
-
 // ============ AUTH MODAL ============
 const AuthModal = ({ onClose }: { onClose: () => void }) => {
   const { login, register } = useAuth();
