@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Vazirmatn", sans-serif;
+  --color-brand-50: #eef2ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+
+  --animate-blob: blob 7s infinite;
+  --animate-fade-up: fadeUp 0.6s ease-out;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-spin-slow: spinSlow 2s linear infinite;
+  --animate-gradient: gradientShift 15s ease infinite;
+}
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+* { font-family: "Vazirmatn", sans-serif; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: #ffffff;
+  color: #111827;
+  transition: background-color 0.3s, color 0.3s;
+}
+.dark body {
+  background: #030712;
+  color: #f3f4f6;
+}
+
+/* ============================================ */
+/* 📱 موبایل: اسکرول‌بار کاملاً مخفی */
+/* ============================================ */
+@media (max-width: 1023px) {
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+}
+
+/* ============================================ */
+/* 💻 دسکتاپ: اسکرول‌بار خفن و گرادینت */
+/* ============================================ */
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(243, 244, 246, 0.5);
+    backdrop-filter: blur(10px);
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: rgba(17, 24, 39, 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #6366f1, #a855f7, #ec4899);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: all 0.3s;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #4f46e5, #9333ea, #db2777);
+    background-clip: padding-box;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #6366f1 rgba(243, 244, 246, 0.5);
+  }
+
+  .dark * {
+    scrollbar-color: #6366f1 rgba(17, 24, 39, 0.5);
+  }
+}
+
+/* ============================================ */
+/* 🎨 استایل‌های عمومی */
+/* ============================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dark .glass {
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(55, 65, 81, 0.5);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
