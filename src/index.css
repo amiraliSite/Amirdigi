@@ -56,59 +56,32 @@ body {
 }
 
 /* ============================================ */
-/* 📱 موبایل: اسکرول‌بار کاملاً مخفی */
+/* 🚫 حذف کامل اسکرول‌بار در همه حالت‌ها */
 /* ============================================ */
-@media (max-width: 1023px) {
-  ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
-  * {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
+
+/* Chrome, Safari, Edge, Opera */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
 }
 
-/* ============================================ */
-/* 💻 دسکتاپ: اسکرول‌بار خفن و گرادینت */
-/* ============================================ */
-@media (min-width: 1024px) {
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-  ::-webkit-scrollbar-track {
-    background: rgba(243, 244, 246, 0.5);
-    backdrop-filter: blur(10px);
-  }
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
 
-  .dark ::-webkit-scrollbar-track {
-    background: rgba(17, 24, 39, 0.5);
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
 
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #6366f1, #a855f7, #ec4899);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-    transition: all 0.3s;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(to bottom, #4f46e5, #9333ea, #db2777);
-    background-clip: padding-box;
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
-  }
-
-  /* Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #6366f1 rgba(243, 244, 246, 0.5);
-  }
-
-  .dark * {
-    scrollbar-color: #6366f1 rgba(17, 24, 39, 0.5);
-  }
+/* Firefox */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 /* ============================================ */
