@@ -9,6 +9,10 @@ import {
 } from "lucide-react";
 import { FaTelegram, FaInstagram, FaLinkedin } from "react-icons/fa";
 
+// نکته: برای ریسپانسیو بودن در موبایل، حتما باید فایل index.html شما
+// دارای تگ زیر در قسمت head باشد:
+// <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
 import img from '../public/Gemini_Generated_Image_gz8n0ugz8n0ugz8n.png'
 
 // ============ TYPES ============
@@ -147,12 +151,12 @@ const LoadingScreen = ({ onFinish }: { onFinish: () => void }) => {
       <div className="relative z-10 text-center px-4">
         <motion.div animate={{ rotate: 360 }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }} className="relative mb-8 inline-block">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur-2xl opacity-50 animate-pulse" />
-          <div className="relative w-28 h-28 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center">
-            <span className="text-4xl font-black text-gradient">DA</span>
+          <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center">
+            <span className="text-2xl sm:text-4xl font-black text-gradient">DA</span>
           </div>
         </motion.div>
-        <h1 className="text-4xl md:text-6xl font-black text-white mb-2">{lang === 'fa' ? 'دیجی' : 'Digi'} <span className="text-gradient">{lang === 'fa' ? 'امیر' : 'Amir'}</span></h1>
-        <p className="text-white/60 mb-8 text-base md:text-lg">{t.loading}</p>
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white mb-2">{lang === 'fa' ? 'دیجی' : 'Digi'} <span className="text-gradient">{lang === 'fa' ? 'امیر' : 'Amir'}</span></h1>
+        <p className="text-white/60 mb-8 text-base sm:text-lg">{t.loading}</p>
         <div className="w-full max-w-xs mx-auto">
           <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
             <motion.div className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.1 }} />
@@ -165,6 +169,7 @@ const LoadingScreen = ({ onFinish }: { onFinish: () => void }) => {
 };
 
 // ============ NAVBAR ============ 
+
 const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) => {
   const { theme, toggle } = useTheme();
   const { lang, toggle: toggleLang, t } = useLang();
@@ -189,23 +194,23 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
       <motion.nav initial={{ y: -100 }} animate={{ y: 0 }} className="fixed top-0 inset-x-0 z-50 glass shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black">DA</div>
-            <span className="text-xl font-black text-gradient hidden sm:block">{t.brand}</span>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black shrink-0">DA</div>
+            <span className="text-lg sm:text-xl font-black text-gradient hidden sm:block truncate">{t.brand}</span>
           </motion.div>
           
           <div className="hidden lg:flex items-center gap-1">
             {links.map((l, i) => (
-              <motion.button key={l.id} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.1, y: -2 }} onClick={() => scrollTo(l.id)} className="px-3 py-2 rounded-lg hover:bg-brand-500/10 transition-colors font-medium text-sm">
+              <motion.button key={l.id} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.1, y: -2 }} onClick={() => scrollTo(l.id)} className="px-3 py-2 rounded-lg hover:bg-brand-500/10 transition-colors font-medium text-sm whitespace-nowrap">
                 {l.label}
               </motion.button>
             ))}
           </div>
           
-          <div className="flex items-center gap-2">
-            <motion.button whileHover={{ scale: 1.1, rotate: 180 }} whileTap={{ scale: 0.9 }} onClick={toggleLang} className="w-10 h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <motion.button whileHover={{ scale: 1.1, rotate: 180 }} whileTap={{ scale: 0.9 }} onClick={toggleLang} className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center">
               <Globe size={18} />
             </motion.button>
-            <motion.button whileHover={{ scale: 1.1, rotate: theme === 'dark' ? 0 : 180 }} whileTap={{ scale: 0.9 }} onClick={toggle} className="w-10 h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center">
+            <motion.button whileHover={{ scale: 1.1, rotate: theme === 'dark' ? 0 : 180 }} whileTap={{ scale: 0.9 }} onClick={toggle} className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center">
               <AnimatePresence mode="wait">
                 {theme === "dark" ? (
                   <motion.div key="sun" initial={{ rotate: -180, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 180, opacity: 0 }}><Sun size={20} /></motion.div>
@@ -214,25 +219,25 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
                 )}
               </AnimatePresence>
             </motion.button>
-            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onCart} className="w-10 h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center relative">
+            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onCart} className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center relative">
               <ShoppingCart size={20} />
               <AnimatePresence>
                 {items.length > 0 && (
-                  <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 text-white text-xs rounded-full flex items-center justify-center">{items.length}</motion.span>
+                  <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 text-white text-[10px] rounded-full flex items-center justify-center">{items.length}</motion.span>
                 )}
               </AnimatePresence>
             </motion.button>
             {user ? (
               <div className="hidden md:flex items-center gap-2">
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="px-3 py-2 rounded-xl glass flex items-center gap-2">
-                  <User size={16} /><span className="text-sm font-medium">{user.name}</span>
+                  <User size={16} /><span className="text-sm font-medium truncate max-w-[100px]">{user.name}</span>
                 </motion.div>
                 <motion.button whileHover={{ scale: 1.1, rotate: 180 }} whileTap={{ scale: 0.9 }} onClick={logout} className="w-10 h-10 rounded-xl glass hover:bg-red-500/10 transition-colors flex items-center justify-center text-red-500">
                   <LogOut size={18} />
                 </motion.button>
               </div>
             ) : (
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onAuth} className="hidden md:inline-flex px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold">
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onAuth} className="hidden md:inline-flex px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold text-sm whitespace-nowrap">
                 {lang === 'fa' ? 'ورود / ثبت‌نام' : 'Login / Register'}
               </motion.button>
             )}
@@ -247,7 +252,7 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
         className="lg:hidden fixed bottom-4 left-4 right-4 z-50"
       >
-        <div className="glass rounded-2xl p-2 flex justify-around items-center shadow-2xl shadow-brand-500/20 border border-white/30 dark:border-gray-700/50 backdrop-blur-xl">
+        <div className="glass rounded-2xl p-2 flex justify-around items-center shadow-2xl shadow-brand-500/20 border border-white/30 dark:border-gray-700/50 backdrop-blur-xl overflow-x-auto no-scrollbar">
           {links.slice(0, 5).map((l, i) => (
             <motion.button
               key={l.id}
@@ -257,11 +262,11 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
               whileHover={{ scale: 1.2, y: -8 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => scrollTo(l.id)} 
-              className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-brand-500/10 transition-colors group relative"
+              className="flex flex-col items-center gap-1 p-2 min-w-[60px] rounded-xl hover:bg-brand-500/10 transition-colors group relative"
             >
               <motion.div className="absolute inset-0 bg-brand-500/20 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-              <l.icon size={22} className="text-gray-600 dark:text-gray-300 group-hover:text-brand-500 transition-colors relative z-10" />
-              <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300 group-hover:text-brand-500 transition-colors relative z-10">{l.label}</span>
+              <l.icon size={20} className="text-gray-600 dark:text-gray-300 group-hover:text-brand-500 transition-colors relative z-10" />
+              <span className="text-[9px] font-bold text-gray-600 dark:text-gray-300 group-hover:text-brand-500 transition-colors relative z-10 whitespace-nowrap">{l.label}</span>
             </motion.button>
           ))}
           {user && (
@@ -271,11 +276,11 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
              whileHover={{ scale: 1.2, y: -8 }}
              whileTap={{ scale: 0.9 }}
              onClick={logout}
-             className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-red-500/10 transition-colors group relative"
+             className="flex flex-col items-center gap-1 p-2 min-w-[60px] rounded-xl hover:bg-red-500/10 transition-colors group relative"
            >
              <motion.div className="absolute inset-0 bg-red-500/20 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-             <User size={22} className="text-red-500 relative z-10" />
-             <span className="text-[10px] font-bold text-red-500 relative z-10">{t.nav.profile}</span>
+             <User size={20} className="text-red-500 relative z-10" />
+             <span className="text-[9px] font-bold text-red-500 relative z-10 whitespace-nowrap">{t.nav.profile}</span>
            </motion.button>
           )}
         </div>
@@ -322,8 +327,8 @@ const AuthModal = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-md glass rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20 dark:border-gray-800/50 max-h-[90vh] overflow-y-auto">
-        <motion.button whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={onClose} className="absolute top-4 left-4 w-10 h-10 rounded-xl hover:bg-red-500/10 flex items-center justify-center">
+      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-md glass rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 dark:border-gray-800/50 max-h-[90vh] overflow-y-auto">
+        <motion.button whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={onClose} className="absolute top-4 left-4 w-10 h-10 rounded-xl hover:bg-red-500/10 flex items-center justify-center z-20">
           <X size={20} />
         </motion.button>
         <div className="text-center mb-6">
@@ -401,15 +406,15 @@ const CartModal = ({ onClose, onAuth }: { onClose: () => void; onAuth: () => voi
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-lg glass rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20 dark:border-gray-800/50 max-h-[90vh] overflow-y-auto">
-        <motion.button whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={onClose} className="absolute top-4 left-4 w-10 h-10 rounded-xl hover:bg-red-500/10 flex items-center justify-center">
+      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-lg glass rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 dark:border-gray-800/50 max-h-[90vh] overflow-y-auto">
+        <motion.button whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={onClose} className="absolute top-4 left-4 w-10 h-10 rounded-xl hover:bg-red-500/10 flex items-center justify-center z-20">
           <X size={20} />
         </motion.button>
         
         <AnimatePresence mode="wait">
           {step === 'cart' && (
             <motion.div key="cart" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
-              <h2 className="text-2xl font-black mb-6 text-center">{t.cart.title}</h2>
+              <h2 className="text-xl sm:text-2xl font-black mb-6 text-center">{t.cart.title}</h2>
               {items.length === 0 ? (
                 <div className="text-center py-12 opacity-60">
                   <div className="text-6xl mb-4">🛒</div>
@@ -441,7 +446,7 @@ const CartModal = ({ onClose, onAuth }: { onClose: () => void; onAuth: () => voi
 
           {step === 'checkout' && (
             <motion.div key="checkout" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} className="space-y-4">
-              <h2 className="text-2xl font-black mb-4 text-center">{t.cart.checkout.title}</h2>
+              <h2 className="text-xl sm:text-2xl font-black mb-4 text-center">{t.cart.checkout.title}</h2>
               <div className="space-y-3">
                 <input type="text" placeholder={t.cart.checkout.address} value={shipping.address} onChange={e => setShipping({...shipping, address: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 focus:ring-2 focus:ring-brand-500 outline-none" />
                 <div className="grid grid-cols-2 gap-3">
@@ -451,8 +456,8 @@ const CartModal = ({ onClose, onAuth }: { onClose: () => void; onAuth: () => voi
                 <div className="p-4 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20">
                   <p className="mb-2 font-bold text-sm">{t.cart.checkout.method}</p>
                   <div className="flex gap-2">
-                    <button onClick={() => setShipping({...shipping, method: 'standard'})} className={`flex-1 py-2 rounded-lg text-sm border ${shipping.method === 'standard' ? 'bg-brand-500 text-white border-brand-500' : 'border-gray-500'}`}>{t.cart.checkout.standard}</button>
-                    <button onClick={() => setShipping({...shipping, method: 'express'})} className={`flex-1 py-2 rounded-lg text-sm border ${shipping.method === 'express' ? 'bg-brand-500 text-white border-brand-500' : 'border-gray-500'}`}>{t.cart.checkout.express}</button>
+                    <button onClick={() => setShipping({...shipping, method: 'standard'})} className={`flex-1 py-2 rounded-lg text-xs sm:text-sm border ${shipping.method === 'standard' ? 'bg-brand-500 text-white border-brand-500' : 'border-gray-500'}`}>{t.cart.checkout.standard}</button>
+                    <button onClick={() => setShipping({...shipping, method: 'express'})} className={`flex-1 py-2 rounded-lg text-xs sm:text-sm border ${shipping.method === 'express' ? 'bg-brand-500 text-white border-brand-500' : 'border-gray-500'}`}>{t.cart.checkout.express}</button>
                   </div>
                 </div>
               </div>
@@ -466,7 +471,7 @@ const CartModal = ({ onClose, onAuth }: { onClose: () => void; onAuth: () => voi
           {step === 'success' && (
             <motion.div key="success" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8">
               <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 0.5 }} className="text-6xl mb-4">🎉</motion.div>
-              <h3 className="text-2xl font-black mb-2 text-gradient">{user?.name} {t.cart.success}</h3>
+              <h3 className="text-xl sm:text-2xl font-black mb-2 text-gradient">{user?.name} {t.cart.success}</h3>
               <p className="opacity-60 mb-6">{t.cart.successDesc}</p>
               <button onClick={onClose} className="px-8 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-colors font-bold">بستن</button>
             </motion.div>
@@ -515,34 +520,34 @@ const Hero = ({ onAuth }: { onAuth: () => void }) => {
   const { t } = useLang();
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20 pb-32 overflow-hidden">
-      <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, -30, 0] }} transition={{ duration: 10, repeat: Infinity }} className="absolute top-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl" />
-      <motion.div animate={{ scale: [1, 1.3, 1], x: [0, -50, 0], y: [0, 30, 0] }} transition={{ duration: 12, repeat: Infinity, delay: 2 }} className="absolute bottom-20 left-10 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl" />
+      <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, -30, 0] }} transition={{ duration: 10, repeat: Infinity }} className="absolute top-20 right-10 w-64 h-64 sm:w-96 sm:h-96 bg-purple-500/20 rounded-full blur-3xl" />
+      <motion.div animate={{ scale: [1, 1.3, 1], x: [0, -50, 0], y: [0, 30, 0] }} transition={{ duration: 12, repeat: Infinity, delay: 2 }} className="absolute bottom-20 left-10 w-64 h-64 sm:w-96 sm:h-96 bg-pink-500/20 rounded-full blur-3xl" />
       <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
         <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.8 }}>
           <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
-            <Zap size={16} className="text-yellow-500" /><span className="text-sm font-bold">{t.hero.badge}</span>
+            <Zap size={16} className="text-yellow-500" /><span className="text-xs sm:text-sm font-bold">{t.hero.badge}</span>
           </motion.div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black leading-tight mb-6">
             {t.hero.title1} <span className="text-gradient">{t.hero.title2}</span> {t.hero.title3} <br /> {t.hero.title4}
           </h1>
-          <p className="text-base md:text-lg opacity-70 mb-8 leading-relaxed">{t.hero.desc}</p>
+          <p className="text-base sm:text-lg opacity-70 mb-8 leading-relaxed">{t.hero.desc}</p>
           <div className="flex flex-wrap gap-4">
-            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} className="px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold shadow-lg shadow-brand-500/30">
+            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} className="px-6 sm:px-8 py-3 sm:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold shadow-lg shadow-brand-500/30 text-sm sm:text-base">
               {t.hero.btn1}
             </motion.button>
-            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 255, 255, 0.2)" }} whileTap={{ scale: 0.95 }} onClick={onAuth} className="px-6 md:px-8 py-3 md:py-4 rounded-2xl glass font-bold">
+            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 255, 255, 0.2)" }} whileTap={{ scale: 0.95 }} onClick={onAuth} className="px-6 sm:px-8 py-3 sm:py-4 rounded-2xl glass font-bold text-sm sm:text-base">
               {t.hero.btn2}
             </motion.button>
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.8, delay: 0.2 }} className="relative">
-          <div className="relative w-full aspect-square max-w-xs md:max-w-md mx-auto">
+          <div className="relative w-full aspect-square max-w-md mx-auto">
             <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-[3rem] blur-2xl opacity-30" />
-            <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="relative glass rounded-[3rem] p-6 md:p-8 h-full flex items-center justify-center border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)]">
+            <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="relative glass rounded-[3rem] p-6 sm:p-8 h-full flex items-center justify-center border border-white/20 shadow-[0_0_30px_rgba(99,102,241,0.3)]">
               <div className="text-center">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjKTzCmmNLISzvHfG33wlp2K1Rg2oGQV8vHPXD0yYRJA&s=10" alt="Shopping" className="w-full max-w-[200px] md:max-w-[300px] h-auto object-cover rounded-3xl mb-4 mx-auto shadow-xl" />
-                <div className="flex justify-center gap-2 mb-4">{[1,2,3,4,5].map(i => <Star key={i} size={24} className="fill-yellow-400 text-yellow-400" />)}</div>
-                <p className="text-xl md:text-2xl font-black">{useLang().lang === 'fa' ? '+۱۰,۰۰۰' : '+10,000'} {useLang().lang === 'fa' ? 'مشتری راضی' : 'Happy Customers'}</p>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjKTzCmmNLISzvHfG33wlp2K1Rg2oGQV8vHPXD0yYRJA&s=10" alt="Shopping" className="w-48 h-48 sm:w-64 sm:h-64 object-cover rounded-3xl mb-4 mx-auto shadow-xl" />
+                <div className="flex justify-center gap-1 sm:gap-2 mb-4">{[1,2,3,4,5].map(i => <Star key={i} size={16} className="sm:w-6 sm:h-6 fill-yellow-400 text-yellow-400" />)}</div>
+                <p className="text-lg sm:text-2xl font-black">{useLang().lang === 'fa' ? '+۱۰,۰۰۰' : '+10,000'} {useLang().lang === 'fa' ? 'مشتری راضی' : 'Happy Customers'}</p>
               </div>
             </motion.div>
           </div>
@@ -561,14 +566,14 @@ const Features = () => {
     { icon: TrendingUp, title: t.features.f4.title, desc: t.features.f4.desc, color: "from-orange-500 to-red-500" },
   ];
   return (
-    <section className="py-20 max-w-7xl mx-auto px-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <section className="py-12 sm:py-20 max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {items.map((it, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.05, y: -10, boxShadow: "0 0 25px rgba(99, 102, 241, 0.4)" }} className="glass rounded-3xl p-6 cursor-pointer border border-transparent hover:border-brand-500/50 transition-colors">
             <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }} className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${it.color} flex items-center justify-center mb-4 shadow-lg`}>
               <it.icon size={28} className="text-white" />
             </motion.div>
-            <h3 className="text-xl font-black mb-2">{it.title}</h3>
+            <h3 className="text-lg sm:text-xl font-black mb-2">{it.title}</h3>
             <p className="opacity-60 text-sm">{it.desc}</p>
           </motion.div>
         ))}
@@ -601,14 +606,14 @@ const ProductSlider = () => {
   const isWishlisted = wishlist.includes(currentProduct.id);
 
   return (
-    <section id="products" className="py-20 max-w-7xl mx-auto px-4">
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.products.title} <span className="text-gradient">{t.products.subtitle}</span></h2>
-        <p className="opacity-60 mb-8">{t.products.desc}</p>
+    <section id="products" className="py-12 sm:py-20 max-w-7xl mx-auto px-4">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-8 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">{t.products.title} <span className="text-gradient">{t.products.subtitle}</span></h2>
+        <p className="opacity-60 mb-8 text-sm sm:text-base">{t.products.desc}</p>
       </motion.div>
 
       <div className="relative max-w-4xl mx-auto" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
-        <div className="glass rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 border border-white/20 shadow-[0_0_50px_rgba(99,102,241,0.2)] overflow-hidden relative">
+        <div className="glass rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 border border-white/20 shadow-[0_0_50px_rgba(99,102,241,0.2)] overflow-hidden relative">
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentProduct.id}
@@ -616,35 +621,35 @@ const ProductSlider = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center"
             >
-              <div className="order-2 md:order-1 space-y-6 text-center md:text-right">
-                <div className="inline-block px-4 py-1 rounded-full bg-red-500/20 text-red-500 font-bold text-sm">-{currentProduct.discount}% OFF</div>
-                <h3 className="text-2xl md:text-4xl font-black">{currentProduct.name[lang]}</h3>
-                <div className="flex items-center justify-center md:justify-start gap-2">
-                  <div className="flex text-yellow-400"><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /></div>
-                  <span className="font-bold">{currentProduct.rating}</span>
+              <div className="order-2 md:order-1 space-y-4 sm:space-y-6">
+                <div className="inline-block px-3 py-1 sm:px-4 sm:py-1 rounded-full bg-red-500/20 text-red-500 font-bold text-xs sm:text-sm">-{currentProduct.discount}% OFF</div>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-black">{currentProduct.name[lang]}</h3>
+                <div className="flex items-center gap-2">
+                  <div className="flex text-yellow-400"><Star size={16} className="sm:w-5 sm:h-5" fill="currentColor" /><Star size={16} className="sm:w-5 sm:h-5" fill="currentColor" /><Star size={16} className="sm:w-5 sm:h-5" fill="currentColor" /><Star size={16} className="sm:w-5 sm:h-5" fill="currentColor" /><Star size={16} className="sm:w-5 sm:h-5" fill="currentColor" /></div>
+                  <span className="font-bold text-sm sm:text-base">{currentProduct.rating}</span>
                 </div>
-                <div className="flex items-end justify-center md:justify-start gap-4">
-                  <span className="text-2xl md:text-3xl font-black text-brand-500">{currentProduct.price}</span>
-                  <span className="text-base md:text-lg line-through opacity-50">{currentProduct.old}</span>
+                <div className="flex items-end gap-4">
+                  <span className="text-2xl sm:text-3xl font-black text-brand-500">{currentProduct.price}</span>
+                  <span className="text-sm sm:text-lg line-through opacity-50">{currentProduct.old}</span>
                 </div>
-                <div className="flex justify-center md:justify-start gap-3">
+                <div className="flex gap-3">
                   <motion.button 
                     whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.6)" }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => { add(currentProduct); addToast(t.toast.addedCart, 'success'); }}
-                    className="flex-1 md:flex-none px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold flex items-center justify-center gap-2"
+                    className="flex-1 md:flex-none px-4 sm:px-8 py-3 sm:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold flex items-center justify-center gap-2 text-sm sm:text-base"
                   >
-                    <ShoppingCart size={20} /> {t.products.addCart}
+                    <ShoppingCart size={18} className="sm:w-5 sm:h-5" /> <span className="whitespace-nowrap">{t.products.addCart}</span>
                   </motion.button>
                   <motion.button 
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => toggleWishlist(currentProduct.id)}
-                    className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center border transition-colors ${isWishlisted ? 'bg-red-500/20 border-red-500 text-red-500' : 'glass border-white/20 text-gray-400 hover:text-red-500'}`}
+                    className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center border transition-colors ${isWishlisted ? 'bg-red-500/20 border-red-500 text-red-500' : 'glass border-white/20 text-gray-400 hover:text-red-500'}`}
                   >
-                    <Heart size={24} fill={isWishlisted ? "currentColor" : "none"} />
+                    <Heart size={20} className="sm:w-6 sm:h-6" fill={isWishlisted ? "currentColor" : "none"} />
                   </motion.button>
                 </div>
               </div>
@@ -655,19 +660,19 @@ const ProductSlider = () => {
                     animate={{ scale: 1, opacity: 1 }}
                     src={currentProduct.img} 
                     alt={currentProduct.name[lang]} 
-                    className="w-48 h-48 md:w-80 md:h-80 object-cover rounded-3xl shadow-2xl"
+                    className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 object-cover rounded-3xl shadow-2xl"
                   />
                 </TiltCard>
               </div>
             </motion.div>
           </AnimatePresence>
           
-          <button onClick={prevSlide} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors z-10"><ChevronLeft size={15} /></button>
-          <button onClick={nextSlide} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors z-10"><ChevronRight size={15} /></button>
+          <button onClick={prevSlide} className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors z-10"><ChevronLeft size={15} /></button>
+          <button onClick={nextSlide} className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center hover:bg-white/20 transition-colors z-10"><ChevronRight size={15} /></button>
           
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
             {PRODUCTS.map((_, i) => (
-              <button key={i} onClick={() => setCurrentIndex(i)} className={`h-2 rounded-full transition-all ${i === currentIndex ? 'bg-brand-500 w-8' : 'bg-white/30 w-2'}`} />
+              <button key={i} onClick={() => setCurrentIndex(i)} className={`h-2 rounded-full transition-all ${i === currentIndex ? 'bg-brand-500 w-6 sm:w-8' : 'bg-white/30 w-2'}`} />
             ))}
           </div>
         </div>
@@ -679,17 +684,17 @@ const ProductSlider = () => {
 const Categories = () => {
   const { lang, t } = useLang();
   return (
-    <section id="categories" className="py-20 max-w-7xl mx-auto px-4">
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.categories.title} <span className="text-gradient">{t.categories.subtitle}</span></h2>
-        <p className="opacity-60">{t.categories.desc}</p>
+    <section id="categories" className="py-12 sm:py-20 max-w-7xl mx-auto px-4">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-8 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">{t.categories.title} <span className="text-gradient">{t.categories.subtitle}</span></h2>
+        <p className="opacity-60 text-sm sm:text-base">{t.categories.desc}</p>
       </motion.div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {CATEGORIES.map((c, i) => (
-          <motion.div key={i} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.05 }} whileHover={{ scale: 1.1, rotate: 5, boxShadow: "0 0 20px rgba(168, 85, 247, 0.4)" }} className="glass rounded-3xl p-6 text-center cursor-pointer border border-transparent hover:border-purple-500/50 transition-colors">
-            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }} className="text-5xl mb-3">{c.icon}</motion.div>
-            <h3 className="font-bold mb-1">{c.name[lang]}</h3>
-            <p className="text-xs opacity-60">{c.count} {t.categories.items}</p>
+          <motion.div key={i} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.05 }} whileHover={{ scale: 1.1, rotate: 5, boxShadow: "0 0 20px rgba(168, 85, 247, 0.4)" }} className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-center cursor-pointer border border-transparent hover:border-purple-500/50 transition-colors">
+            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }} className="text-3xl sm:text-5xl mb-2 sm:mb-3">{c.icon}</motion.div>
+            <h3 className="font-bold mb-1 text-sm sm:text-base">{c.name[lang]}</h3>
+            <p className="text-[10px] sm:text-xs opacity-60">{c.count} {t.categories.items}</p>
           </motion.div>
         ))}
       </div>
@@ -700,23 +705,23 @@ const Categories = () => {
 const Offers = () => {
   const { t } = useLang();
   return (
-    <section id="offers" className="py-20 max-w-7xl mx-auto px-4">
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.2 }} className="relative glass rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 overflow-hidden border border-white/10">
-        <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute top-0 right-0 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl" />
-        <motion.div animate={{ scale: [1, 1.3, 1], x: [0, -50, 0] }} transition={{ duration: 10, repeat: Infinity }} className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl" />
-        <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+    <section id="offers" className="py-12 sm:py-20 max-w-7xl mx-auto px-4">
+      <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.2 }} className="relative glass rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 overflow-hidden border border-white/10">
+        <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute top-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-pink-500/20 rounded-full blur-3xl" />
+        <motion.div animate={{ scale: [1, 1.3, 1], x: [0, -50, 0] }} transition={{ duration: 10, repeat: Infinity }} className="absolute bottom-0 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-indigo-500/20 rounded-full blur-3xl" />
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
           <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }}>
             <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 text-red-500 mb-4">
-              <Tag size={16} /><span className="text-sm font-bold">{t.offers.badge}</span>
+              <Tag size={16} /><span className="text-xs sm:text-sm font-bold">{t.offers.badge}</span>
             </motion.div>
-            <h2 className="text-3xl md:text-5xl font-black mb-4">{t.offers.title1} <span className="text-gradient">{t.offers.title2}</span> {t.offers.title3}</h2>
-            <p className="opacity-70 mb-6">{t.offers.desc}</p>
-            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} className="px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">{t.offers.title1} <span className="text-gradient">{t.offers.title2}</span> {t.offers.title3}</h2>
+            <p className="opacity-70 mb-6 text-sm sm:text-base">{t.offers.desc}</p>
+            <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} className="px-6 sm:px-8 py-3 sm:py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold text-sm sm:text-base">
               {t.offers.btn}
             </motion.button>
           </motion.div>
           <motion.div animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }} transition={{ duration: 4, repeat: Infinity }} className="text-center">
-            <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=500&h=500&fit=crop" alt="Gift" className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-full mx-auto shadow-2xl shadow-pink-500/20" />
+            <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=500&h=500&fit=crop" alt="Gift" className="w-48 h-48 sm:w-64 sm:h-64 object-cover rounded-full mx-auto shadow-2xl shadow-pink-500/20" />
           </motion.div>
         </div>
       </motion.div>
@@ -727,27 +732,27 @@ const Offers = () => {
 const About = () => {
   const { t } = useLang();
   return (
-    <section id="about" className="py-20 max-w-7xl mx-auto px-4">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+    <section id="about" className="py-12 sm:py-20 max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }}>
-          <h2 className="text-3xl md:text-5xl font-black mb-6">{t.about.title} <span className="text-gradient">{t.about.subtitle}</span></h2>
-          <p className="opacity-70 mb-4 leading-relaxed">{t.about.p1}</p>
-          <p className="opacity-70 mb-6 leading-relaxed">{t.about.p2}</p>
-          <div className="grid grid-cols-3 gap-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">{t.about.title} <span className="text-gradient">{t.about.subtitle}</span></h2>
+          <p className="opacity-70 mb-4 leading-relaxed text-sm sm:text-base">{t.about.p1}</p>
+          <p className="opacity-70 mb-6 leading-relaxed text-sm sm:text-base">{t.about.p2}</p>
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
             {t.about.stats.map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.1, y: -5, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} className="glass rounded-2xl p-4 text-center border border-white/10">
-                <div className="text-xl md:text-2xl font-black text-brand-500">{s.n}</div>
-                <div className="text-xs opacity-60">{s.l}</div>
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.1, y: -5, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} className="glass rounded-2xl p-3 sm:p-4 text-center border border-white/10">
+                <div className="text-xl sm:text-2xl font-black text-brand-500">{s.n}</div>
+                <div className="text-[10px] sm:text-xs opacity-60">{s.l}</div>
               </motion.div>
             ))}
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} className="relative">
           <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-[3rem] blur-2xl opacity-30" />
-          <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="relative glass rounded-[3rem] p-8 md:p-12 text-center border border-white/20 shadow-[0_0_30px_rgba(236,72,153,0.2)]">
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=500&fit=crop" alt="Store" className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-3xl mb-4 mx-auto" />
-            <h3 className="text-xl md:text-2xl font-black mb-2">{t.about.badge}</h3>
-            <p className="opacity-60">{t.about.badgeDesc}</p>
+          <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="relative glass rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 text-center border border-white/20 shadow-[0_0_30px_rgba(236,72,153,0.2)]">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=500&fit=crop" alt="Store" className="w-48 h-48 sm:w-64 sm:h-64 object-cover rounded-3xl mb-4 mx-auto" />
+            <h3 className="text-xl sm:text-2xl font-black mb-2">{t.about.badge}</h3>
+            <p className="opacity-60 text-sm">{t.about.badgeDesc}</p>
           </motion.div>
         </motion.div>
       </div>
@@ -758,22 +763,22 @@ const About = () => {
 const Blog = () => {
   const { lang, t } = useLang();
   return (
-    <section id="blog" className="py-20 max-w-7xl mx-auto px-4">
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.blog.title} <span className="text-gradient">{t.blog.subtitle}</span></h2>
-        <p className="opacity-60">{t.blog.desc}</p>
+    <section id="blog" className="py-12 sm:py-20 max-w-7xl mx-auto px-4">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-8 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">{t.blog.title} <span className="text-gradient">{t.blog.subtitle}</span></h2>
+        <p className="opacity-60 text-sm sm:text-base">{t.blog.desc}</p>
       </motion.div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         {BLOG_POSTS.map((p, i) => (
-          <motion.article key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.05, y: -10, boxShadow: "0 0 25px rgba(99, 102, 241, 0.3)" }} className="glass rounded-3xl overflow-hidden cursor-pointer border border-transparent hover:border-brand-500/30 transition-colors">
+          <motion.article key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.05, y: -10, boxShadow: "0 0 25px rgba(99, 102, 241, 0.3)" }} className="glass rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer border border-transparent hover:border-brand-500/30 transition-colors">
             <div className="overflow-hidden">
-              <motion.img whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }} src={p.img} alt={p.title[lang]} className="h-48 w-full object-cover" />
+              <motion.img whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }} src={p.img} alt={p.title[lang]} className="h-40 sm:h-48 w-full object-cover" />
             </div>
-            <div className="p-6">
-              <p className="text-xs opacity-60 mb-2">{p.date[lang]}</p>
-              <h3 className="text-xl font-black mb-2">{p.title[lang]}</h3>
-              <p className="opacity-60 text-sm mb-4">{p.desc[lang]}</p>
-              <motion.button whileHover={{ x: 5 }} className="text-brand-500 font-bold text-sm">{t.blog.readMore}</motion.button>
+            <div className="p-4 sm:p-6">
+              <p className="text-[10px] sm:text-xs opacity-60 mb-2">{p.date[lang]}</p>
+              <h3 className="text-lg sm:text-xl font-black mb-2">{p.title[lang]}</h3>
+              <p className="opacity-60 text-xs sm:text-sm mb-4 line-clamp-2">{p.desc[lang]}</p>
+              <motion.button whileHover={{ x: 5 }} className="text-brand-500 font-bold text-xs sm:text-sm">{t.blog.readMore}</motion.button>
             </div>
           </motion.article>
         ))}
@@ -795,31 +800,31 @@ const Contact = () => {
     setForm({ name: "", email: "", msg: "" }); 
   };
   return (
-    <section id="contact" className="py-20 max-w-7xl mx-auto px-4">
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.contact.title} <span className="text-gradient">{t.contact.subtitle}</span></h2>
-        <p className="opacity-60">{t.contact.desc}</p>
+    <section id="contact" className="py-12 sm:py-20 max-w-7xl mx-auto px-4">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-8 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">{t.contact.title} <span className="text-gradient">{t.contact.subtitle}</span></h2>
+        <p className="opacity-60 text-sm sm:text-base">{t.contact.desc}</p>
       </motion.div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         <div className="space-y-4">
           {[{ icon: MapPin, title: t.contact.addr.title, desc: t.contact.addr.desc }, { icon: Phone, title: t.contact.phone.title, desc: t.contact.phone.desc }, { icon: Mail, title: t.contact.email.title, desc: t.contact.email.desc }].map((c, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.05, x: 10, boxShadow: "0 0 20px rgba(99, 102, 241, 0.2)" }} className="glass rounded-2xl p-6 flex items-center gap-4 border border-white/10">
-              <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }} className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center shadow-lg">
-                <c.icon size={24} className="text-white" />
+            <motion.div key={i} initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} whileHover={{ scale: 1.05, x: 10, boxShadow: "0 0 20px rgba(99, 102, 241, 0.2)" }} className="glass rounded-2xl p-4 sm:p-6 flex items-center gap-3 sm:gap-4 border border-white/10">
+              <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }} className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center shadow-lg shrink-0">
+                <c.icon size={20} className="sm:w-6 sm:h-6 text-white" />
               </motion.div>
-              <div><h4 className="font-bold">{c.title}</h4><p className="text-sm opacity-60">{c.desc}</p></div>
+              <div><h4 className="font-bold text-sm sm:text-base">{c.title}</h4><p className="text-xs sm:text-sm opacity-60">{c.desc}</p></div>
             </motion.div>
           ))}
           <div className="flex gap-3">
-            <motion.a href="#" whileHover={{ scale: 1.2, rotate: 15, boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)" }} whileTap={{ scale: 0.9 }} className="w-12 h-12 rounded-xl glass flex items-center justify-center border border-white/10"><FaTelegram size={20} className="text-blue-400" /></motion.a>
-            <motion.a href="#" whileHover={{ scale: 1.2, rotate: 15, boxShadow: "0 0 15px rgba(236, 72, 153, 0.5)" }} whileTap={{ scale: 0.9 }} className="w-12 h-12 rounded-xl glass flex items-center justify-center border border-white/10"><FaInstagram size={20} className="text-pink-600" /></motion.a>
+            <motion.a href="#" whileHover={{ scale: 1.2, rotate: 15, boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)" }} whileTap={{ scale: 0.9 }} className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl glass flex items-center justify-center border border-white/10"><FaTelegram size={18} className="sm:w-5 sm:h-5 text-blue-400" /></motion.a>
+            <motion.a href="#" whileHover={{ scale: 1.2, rotate: 15, boxShadow: "0 0 15px rgba(236, 72, 153, 0.5)" }} whileTap={{ scale: 0.9 }} className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl glass flex items-center justify-center border border-white/10"><FaInstagram size={18} className="sm:w-5 sm:h-5 text-pink-600" /></motion.a>
           </div>
         </div>
-        <motion.form initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} onSubmit={handleSubmit} className="glass rounded-3xl p-6 md:p-8 space-y-4 border border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.1)]">
-          <motion.input whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} type="text" placeholder={t.contact.form.name} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500" />
-          <motion.input whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} type="email" placeholder={t.contact.form.email} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500" />
-          <motion.textarea whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} placeholder={t.contact.form.msg} value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} required rows={5} className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none" />
-          <motion.button whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.98 }} type="submit" className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold flex items-center justify-center gap-2">
+        <motion.form initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, amount: 0.2 }} onSubmit={handleSubmit} className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 space-y-4 border border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.1)]">
+          <motion.input whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} type="text" placeholder={t.contact.form.name} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm sm:text-base" />
+          <motion.input whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} type="email" placeholder={t.contact.form.email} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm sm:text-base" />
+          <motion.textarea whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(99, 102, 241, 0.3)" }} placeholder={t.contact.form.msg} value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} required rows={5} className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none text-sm sm:text-base" />
+          <motion.button whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.98 }} type="submit" className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold flex items-center justify-center gap-2 text-sm sm:text-base">
             <Send size={18} /> {sent ? t.contact.form.sent : t.contact.form.btn}
           </motion.button>
         </motion.form>
@@ -832,21 +837,21 @@ const FAQ = () => {
   const { t } = useLang();
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <section id="faq" className="py-20 max-w-4xl mx-auto px-4">
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-12">
-        <h2 className="text-3xl md:text-5xl font-black mb-4">{t.faq.title} <span className="text-gradient">{t.faq.subtitle}</span></h2>
-        <p className="opacity-60">{t.faq.desc}</p>
+    <section id="faq" className="py-12 sm:py-20 max-w-4xl mx-auto px-4">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-center mb-8 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">{t.faq.title} <span className="text-gradient">{t.faq.subtitle}</span></h2>
+        <p className="opacity-60 text-sm sm:text-base">{t.faq.desc}</p>
       </motion.div>
       <div className="space-y-4">
         {t.faq.items.map((f, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: i * 0.1 }} className="glass rounded-2xl overflow-hidden border border-white/10 hover:border-brand-500/30 transition-colors">
-            <motion.button whileHover={{ x: 5 }} onClick={() => setOpen(open === i ? null : i)} className="w-full p-6 text-right flex items-center justify-between font-bold">
+            <motion.button whileHover={{ x: 5 }} onClick={() => setOpen(open === i ? null : i)} className="w-full p-4 sm:p-6 text-right flex items-center justify-between font-bold text-sm sm:text-base">
               <span>{f.q}</span>
               <motion.span animate={{ rotate: open === i ? 180 : 0 }} transition={{ duration: 0.3 }}>▼</motion.span>
             </motion.button>
             <AnimatePresence>
               {open === i && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="px-6 pb-6 opacity-70 text-sm leading-relaxed overflow-hidden">
+                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="px-4 sm:px-6 pb-4 sm:pb-6 opacity-70 text-xs sm:text-sm leading-relaxed overflow-hidden">
                   {f.a}
                 </motion.div>
               )}
@@ -861,38 +866,38 @@ const FAQ = () => {
 const Footer = () => {
   const { lang, t } = useLang();
   return (
-    <footer className="glass border-t border-white/10 mt-20 py-12 pb-12">
+    <footer className="glass border-t border-white/10 mt-12 sm:mt-20 py-8 sm:py-12 pb-24 sm:pb-12">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }}>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black shadow-lg shadow-brand-500/30">DA</div>
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black shadow-lg shadow-brand-500/30 shrink-0">DA</div>
               <span className="text-xl font-black text-gradient">{t.brand}</span>
             </div>
-            <p className="text-sm opacity-60">{t.footer.desc}</p>
+            <p className="text-xs sm:text-sm opacity-60">{t.footer.desc}</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: 0.1 }}>
-            <h4 className="font-bold mb-4">{t.footer.quick}</h4>
-            <ul className="space-y-2 text-sm opacity-60">
+            <h4 className="font-bold mb-4 text-sm sm:text-base">{t.footer.quick}</h4>
+            <ul className="space-y-2 text-xs sm:text-sm opacity-60">
               <li><a href="#home" className="hover:text-brand-500 transition-all">{t.nav.home}</a></li>
               <li><a href="#products" className="hover:text-brand-500 transition-all">{t.nav.products}</a></li>
               <li><a href="#about" className="hover:text-brand-500 transition-all">{t.nav.about}</a></li>
             </ul>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: 0.2 }}>
-            <h4 className="font-bold mb-4">{t.footer.services}</h4>
-            <ul className="space-y-2 text-sm opacity-60">
+            <h4 className="font-bold mb-4 text-sm sm:text-base">{t.footer.services}</h4>
+            <ul className="space-y-2 text-xs sm:text-sm opacity-60">
               <li><a href="#faq" className="hover:text-brand-500 transition-all">{t.nav.faq}</a></li>
               <li><a href="#contact" className="hover:text-brand-500 transition-all">{t.nav.contact}</a></li>
               <li><a href="#" className="hover:text-brand-500 transition-all">{lang === 'fa' ? 'قوانین' : 'Terms'}</a></li>
             </ul>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: 0.3 }}>
-            <h4 className="font-bold mb-4">{t.footer.newsletter}</h4>
-            <p className="text-sm opacity-60 mb-3">{t.footer.newsletterDesc}</p>
+            <h4 className="font-bold mb-4 text-sm sm:text-base">{t.footer.newsletter}</h4>
+            <p className="text-xs sm:text-sm opacity-60 mb-3">{t.footer.newsletterDesc}</p>
             <div className="flex gap-2">
-              <input type="email" placeholder={lang === 'fa' ? 'ایمیل' : 'Email'} className="flex-1 px-3 py-2 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 text-sm focus:ring-2 focus:ring-brand-500 outline-none" />
-              <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white text-sm font-bold">{t.footer.subscribe}</motion.button>
+              <input type="email" placeholder={lang === 'fa' ? 'ایمیل' : 'Email'} className="flex-1 px-3 py-2 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-white/20 dark:border-gray-700 text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 outline-none" />
+              <motion.button whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(99, 102, 241, 0.5)" }} whileTap={{ scale: 0.95 }} className="px-3 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white text-xs sm:text-sm font-bold whitespace-nowrap">{t.footer.subscribe}</motion.button>
             </div>
           </motion.div>
         </div>
@@ -900,21 +905,21 @@ const Footer = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="border-t border-white/10 pt-8 mb-6">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
             <motion.div whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(236, 72, 153, 0.5)" }} className="relative rounded-full p-1 bg-gradient-to-r from-indigo-500 to-pink-500">
-              <img src={img} alt="Amir Ali Mohammadi" className="relative w-24 h-24 md:w-40 md:h-40 rounded-full object-cover border-4 border-white dark:border-gray-900 animate-bounce" />
+              <img src={img} alt="Amir Ali Mohammadi" className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-4 border-white dark:border-gray-900 animate-bounce " />
             </motion.div>
             <div className="text-center">
               <a href="https://amirresume.netlify.app" rel='noopener noreferrer' target='_blank'
-               className="text-lg font-bold text-gradient mb-1 animate-float block">{t.footer.creator}</a>
+               className="text-base sm:text-lg font-bold text-gradient mb-1 animate-float block">{t.footer.creator}</a>
               <div className="flex items-center justify-center gap-3">
-                <motion.a href="https://linkedin.com/in/amirali-react87" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2, boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)" }} className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-500/20 transition-colors border border-white/10"><FaLinkedin size={18} className="text-blue-600" /></motion.a>
-                <motion.a href="https://www.instagram.com/amir_site2026" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2, boxShadow: "0 0 15px rgba(236, 72, 153, 0.5)" }} className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-500/20 transition-colors border border-white/10"><FaInstagram size={18} className="text-pink-600" /></motion.a>
+                <motion.a href="https://linkedin.com/in/amirali-react87" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2, boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)" }} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center hover:bg-brand-500/20 transition-colors border border-white/10"><FaLinkedin size={16} className="sm:w-[18px] sm:h-[18px] text-blue-600" /></motion.a>
+                <motion.a href="https://www.instagram.com/amir_site2026" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2, boxShadow: "0 0 15px rgba(236, 72, 153, 0.5)" }} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center hover:bg-brand-500/20 transition-colors border border-white/10"><FaInstagram size={16} className="sm:w-[18px] sm:h-[18px] text-pink-600" /></motion.a>
                 
               </div>
             </div>
           </div>
         </motion.div>
         
-        <div className="border-t border-white/10 pt-6 text-center text-sm opacity-60">
+        <div className="border-t border-white/10 pt-6 text-center text-xs sm:text-sm opacity-60">
           <p>{t.footer.rights}</p>
         </div>
       </div>
@@ -937,7 +942,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ToastCtx.Provider value={{ addToast }}>
       {children}
-      <div className="fixed top-20 right-4 z-[200] flex flex-col gap-2 pointer-events-none">
+      <div className="fixed top-20 right-4 z-[200] flex flex-col gap-2 pointer-events-none px-4 w-full max-w-xs sm:max-w-sm">
         <AnimatePresence>
           {toasts.map((toast) => (
             <motion.div
@@ -945,14 +950,14 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
               initial={{ opacity: 0, x: 100, scale: 0.8 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 100, scale: 0.8 }}
-              className={`pointer-events-auto glass px-6 py-3 rounded-xl border-l-4 shadow-2xl flex items-center gap-3 min-w-[250px] ${
+              className={`pointer-events-auto glass px-4 sm:px-6 py-3 rounded-xl border-l-4 shadow-2xl flex items-center gap-3 min-w-[200px] ${
                 toast.type === 'success' ? 'border-green-500' : toast.type === 'error' ? 'border-red-500' : 'border-blue-500'
               }`}
             >
-              {toast.type === 'success' && <Check size={20} className="text-green-500" />}
-              {toast.type === 'error' && <AlertCircle size={20} className="text-red-500" />}
-              {toast.type === 'info' && <Zap size={20} className="text-blue-500" />}
-              <span className="font-medium text-sm">{toast.message}</span>
+              {toast.type === 'success' && <Check size={18} className="sm:w-5 sm:h-5 text-green-500 shrink-0" />}
+              {toast.type === 'error' && <AlertCircle size={18} className="sm:w-5 sm:h-5 text-red-500 shrink-0" />}
+              {toast.type === 'info' && <Zap size={18} className="sm:w-5 sm:h-5 text-blue-500 shrink-0" />}
+              <span className="font-medium text-xs sm:text-sm break-words">{toast.message}</span>
             </motion.div>
           ))}
         </AnimatePresence>
@@ -1054,7 +1059,8 @@ export default function App() {
         <AuthCtx.Provider value={{ user, login, register, logout }}>
           <CartCtx.Provider value={{ items: cart, add: addToCart, remove: removeFromCart, clear: clearCart, wishlist, toggleWishlist }}>
             <ToastProvider>
-              <div className="min-h-screen">
+              {/* pb-24 added to main wrapper to prevent content hiding behind mobile menu */}
+              <div className="min-h-screen pb-20 lg:pb-0">
                 <AnimatePresence mode="wait">
                   {loading && <LoadingScreen key="loading" onFinish={() => setLoading(false)} />}
                 </AnimatePresence>
