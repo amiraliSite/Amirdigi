@@ -9,10 +9,6 @@ import {
 } from "lucide-react";
 import { FaTelegram, FaInstagram, FaLinkedin } from "react-icons/fa";
 
-// نکته: برای ریسپانسیو بودن در موبایل، حتما باید فایل index.html شما
-// دارای تگ زیر در قسمت head باشد:
-// <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
 import img from '../public/Gemini_Generated_Image_gz8n0ugz8n0ugz8n.png'
 
 // ============ TYPES ============
@@ -176,7 +172,6 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
   const { user, logout } = useAuth();
   const { items } = useCart();
   
-  // State for mobile drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const links = [
@@ -192,7 +187,7 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
 
   const scrollTo = (id: string) => { 
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setIsDrawerOpen(false); // Close drawer on click
+    setIsDrawerOpen(false);
   };
 
   return (
@@ -204,7 +199,7 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
           <motion.button 
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsDrawerOpen(true)}
-            className="lg:hidden w-10 h-10 rounded-xl glass hover:bg-brand-500/10 flex items-center justify-center mr-2"
+            className="lg:hidden w-10 h-10 rounded-xl glass hover:bg-brand-500/10 flex items-center justify-center ml-2"
           >
             <Menu size={24} />
           </motion.button>
@@ -223,10 +218,13 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
           </div>
           
           <div className="flex items-center gap-1 sm:gap-2">
-            <motion.button whileHover={{ scale: 1.1, rotate: 180 }} whileTap={{ scale: 0.9 }} onClick={toggleLang} className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center">
+            {/* Language: Hidden on mobile, visible on sm+ */}
+            <motion.button whileHover={{ scale: 1.1, rotate: 180 }} whileTap={{ scale: 0.9 }} onClick={toggleLang} className="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors items-center justify-center">
               <Globe size={18} />
             </motion.button>
-            <motion.button whileHover={{ scale: 1.1, rotate: theme === 'dark' ? 0 : 180 }} whileTap={{ scale: 0.9 }} onClick={toggle} className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center">
+            
+            {/* Theme: Hidden on mobile, visible on sm+ */}
+            <motion.button whileHover={{ scale: 1.1, rotate: theme === 'dark' ? 0 : 180 }} whileTap={{ scale: 0.9 }} onClick={toggle} className="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors items-center justify-center">
               <AnimatePresence mode="wait">
                 {theme === "dark" ? (
                   <motion.div key="sun" initial={{ rotate: -180, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 180, opacity: 0 }}><Sun size={20} /></motion.div>
@@ -235,6 +233,8 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
                 )}
               </AnimatePresence>
             </motion.button>
+
+            {/* Cart: ALWAYS visible (Mobile & Desktop) */}
             <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onCart} className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass hover:bg-brand-500/10 transition-colors flex items-center justify-center relative">
               <ShoppingCart size={20} />
               <AnimatePresence>
@@ -243,6 +243,8 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
                 )}
               </AnimatePresence>
             </motion.button>
+
+            {/* Desktop Auth Only */}
             {user ? (
               <div className="hidden md:flex items-center gap-2">
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="px-3 py-2 rounded-xl glass flex items-center gap-2">
@@ -261,11 +263,10 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
         </div>
       </motion.nav>
 
-      {/* منوی همبرگری کشویی موبایل (جایگزین منوی پایین) */}
+      {/* منوی همبرگری کشویی موبایل */}
       <AnimatePresence>
         {isDrawerOpen && (
           <>
-            {/* Backdrop Overlay */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -274,7 +275,6 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
             />
             
-            {/* Drawer Content */}
             <motion.div 
               initial={{ x: lang === 'fa' ? '100%' : '-100%' }}
               animate={{ x: 0 }}
@@ -309,13 +309,27 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
               </div>
 
               <div className="p-4 border-t border-white/10 space-y-3">
+                {/* Theme & Language Toggles inside Drawer */}
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 mb-2">
+                  <button onClick={toggleLang} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors flex-1 justify-center">
+                    <Globe size={18} />
+                    <span className="text-sm font-medium">{lang === 'fa' ? 'English' : 'فارسی'}</span>
+                  </button>
+                  <div className="w-px h-6 bg-white/10"></div>
+                  <button onClick={toggle} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors flex-1 justify-center">
+                    {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                    <span className="text-sm font-medium">{theme === 'dark' ? (lang==='fa'?'روز':'Light') : (lang==='fa'?'شب':'Dark')}</span>
+                  </button>
+                </div>
+
+                {/* User Auth Section */}
                 {user ? (
                   <div className="space-y-3">
                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold shrink-0">
                           {user.name.charAt(0).toUpperCase()}
                         </div>
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-0 text-right">
                            <p className="font-bold text-sm truncate">{user.name}</p>
                            <p className="text-xs opacity-60 truncate">{user.email}</p>
                         </div>
@@ -1108,7 +1122,6 @@ export default function App() {
         <AuthCtx.Provider value={{ user, login, register, logout }}>
           <CartCtx.Provider value={{ items: cart, add: addToCart, remove: removeFromCart, clear: clearCart, wishlist, toggleWishlist }}>
             <ToastProvider>
-              {/* pb-24 added to main wrapper to prevent content hiding behind mobile menu */}
               <div className="min-h-screen pb-20 lg:pb-0">
                 <AnimatePresence mode="wait">
                   {loading && <LoadingScreen key="loading" onFinish={() => setLoading(false)} />}
