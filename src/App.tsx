@@ -5,7 +5,7 @@ import {
   Check, AlertCircle, Star, Zap, Truck, Shield, Headphones, 
   TrendingUp, Tag, Send, MapPin, Phone, Mail, Globe, 
   Home, ShoppingBag, Grid, Info, Layers, MessageCircle, 
-  ChevronRight, ChevronLeft, CreditCard, Heart
+  ChevronRight, ChevronLeft, CreditCard, Heart, Menu
 } from "lucide-react";
 import { FaTelegram, FaInstagram, FaLinkedin } from "react-icons/fa";
 
@@ -175,6 +175,9 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
   const { lang, toggle: toggleLang, t } = useLang();
   const { user, logout } = useAuth();
   const { items } = useCart();
+  
+  // State for mobile drawer
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const links = [
     { id: "home", label: t.nav.home, icon: Home }, 
@@ -187,12 +190,25 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
     { id: "faq", label: t.nav.faq, icon: AlertCircle },
   ];
 
-  const scrollTo = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); };
+  const scrollTo = (id: string) => { 
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setIsDrawerOpen(false); // Close drawer on click
+  };
 
   return (
     <>
       <motion.nav initial={{ y: -100 }} animate={{ y: 0 }} className="fixed top-0 inset-x-0 z-50 glass shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          
+          {/* Mobile Hamburger Button */}
+          <motion.button 
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsDrawerOpen(true)}
+            className="lg:hidden w-10 h-10 rounded-xl glass hover:bg-brand-500/10 flex items-center justify-center mr-2"
+          >
+            <Menu size={24} />
+          </motion.button>
+
           <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black shrink-0">DA</div>
             <span className="text-lg sm:text-xl font-black text-gradient hidden sm:block truncate">{t.brand}</span>
@@ -245,46 +261,79 @@ const Navbar = ({ onAuth, onCart }: { onAuth: () => void; onCart: () => void }) 
         </div>
       </motion.nav>
 
-      {/* منوی پایین موبایل */}
-      <motion.div 
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        className="lg:hidden fixed bottom-4 left-4 right-4 z-50"
-      >
-        <div className="glass rounded-2xl p-2 flex justify-around items-center shadow-2xl shadow-brand-500/20 border border-white/30 dark:border-gray-700/50 backdrop-blur-xl overflow-x-auto no-scrollbar">
-          {links.slice(0, 5).map((l, i) => (
-            <motion.button
-              key={l.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.2, y: -8 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => scrollTo(l.id)} 
-              className="flex flex-col items-center gap-1 p-2 min-w-[60px] rounded-xl hover:bg-brand-500/10 transition-colors group relative"
+      {/* منوی همبرگری کشویی موبایل (جایگزین منوی پایین) */}
+      <AnimatePresence>
+        {isDrawerOpen && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsDrawerOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+            />
+            
+            {/* Drawer Content */}
+            <motion.div 
+              initial={{ x: lang === 'fa' ? '100%' : '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: lang === 'fa' ? '100%' : '-100%' }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className={`fixed top-0 ${lang === 'fa' ? 'right-0' : 'left-0'} bottom-0 w-[80%] max-w-xs z-[70] glass border-l border-r border-white/20 shadow-2xl lg:hidden flex flex-col`}
             >
-              <motion.div className="absolute inset-0 bg-brand-500/20 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-              <l.icon size={20} className="text-gray-600 dark:text-gray-300 group-hover:text-brand-500 transition-colors relative z-10" />
-              <span className="text-[9px] font-bold text-gray-600 dark:text-gray-300 group-hover:text-brand-500 transition-colors relative z-10 whitespace-nowrap">{l.label}</span>
-            </motion.button>
-          ))}
-          {user && (
-             <motion.button
-             initial={{ opacity: 0, scale: 0 }}
-             animate={{ opacity: 1, scale: 1 }}
-             whileHover={{ scale: 1.2, y: -8 }}
-             whileTap={{ scale: 0.9 }}
-             onClick={logout}
-             className="flex flex-col items-center gap-1 p-2 min-w-[60px] rounded-xl hover:bg-red-500/10 transition-colors group relative"
-           >
-             <motion.div className="absolute inset-0 bg-red-500/20 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-             <User size={20} className="text-red-500 relative z-10" />
-             <span className="text-[9px] font-bold text-red-500 relative z-10 whitespace-nowrap">{t.nav.profile}</span>
-           </motion.button>
-          )}
-        </div>
-      </motion.div>
+              <div className="p-6 flex items-center justify-between border-b border-white/10">
+                 <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black">DA</div>
+                    <span className="font-black text-lg text-gradient">{t.brand}</span>
+                 </div>
+                 <button onClick={() => setIsDrawerOpen(false)} className="w-8 h-8 rounded-lg hover:bg-red-500/20 flex items-center justify-center text-red-500">
+                   <X size={20} />
+                 </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                {links.map((l, i) => (
+                  <motion.button
+                    key={l.id}
+                    initial={{ opacity: 0, x: lang === 'fa' ? 20 : -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    onClick={() => scrollTo(l.id)}
+                    className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors text-right"
+                  >
+                    <l.icon size={20} className="text-brand-500" />
+                    <span className="font-medium">{l.label}</span>
+                  </motion.button>
+                ))}
+              </div>
+
+              <div className="p-4 border-t border-white/10 space-y-3">
+                {user ? (
+                  <div className="space-y-3">
+                     <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                           <p className="font-bold text-sm truncate">{user.name}</p>
+                           <p className="text-xs opacity-60 truncate">{user.email}</p>
+                        </div>
+                     </div>
+                     <button onClick={() => { logout(); setIsDrawerOpen(false); }} className="w-full py-3 rounded-xl bg-red-500/10 text-red-500 font-bold flex items-center justify-center gap-2">
+                        <LogOut size={18} /> {t.nav.profile}
+                     </button>
+                  </div>
+                ) : (
+                  <button onClick={() => { onAuth(); setIsDrawerOpen(false); }} className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold">
+                    {lang === 'fa' ? 'ورود / ثبت‌نام' : 'Login / Register'}
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 };
