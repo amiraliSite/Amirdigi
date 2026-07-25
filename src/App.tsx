@@ -14,8 +14,7 @@ import React, {
   useContext,
   useRef,
   type ReactNode,
-  type FC,
-  type CSSProperties,
+  type FC, 
   type ChangeEvent,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -179,15 +178,6 @@ interface AuthUser {
   profileId: string;
 }
 
-interface FilterState {
-  category: string;
-  brands: string[];
-  sizes: string[];
-  colors: string[];
-  priceRange: [number, number];
-  inStock: boolean;
-  onSale: boolean;
-}
 
 interface AppState {
   theme: ThemeMode;
@@ -581,7 +571,7 @@ const MOCK_PRODUCTS: Product[] = [
 // Generate variants for each product
 MOCK_PRODUCTS.forEach((p) => {
   p.variants = p.colors.flatMap((color) =>
-    p.sizes.map((size, si) => ({
+    p.sizes.map((size) => ({
       id: `${p.id}-${color.name}-${size}`,
       color,
       size,
@@ -1937,8 +1927,8 @@ const Header: FC = () => {
 // ================================================================
 
 const HeroSection: FC = () => {
-  const { setState, state } = useStore();
-  const isDark = state.theme === "dark";
+  const { setState } = useStore();
+
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
@@ -3198,7 +3188,7 @@ const ProductDetailPage: FC = () => {
 // ================================================================
 
 const CartDrawer: FC = () => {
-  const { state, setState, cart, removeFromCart, updateQuantity, cartTotal, cartCount, appliedPromo, applyPromo, removePromo, toast, user, requireAuth } = useStore();
+    const { state, setState, cart, removeFromCart, updateQuantity, cartTotal, cartCount, appliedPromo, applyPromo, removePromo, toast, requireAuth } = useStore();
   const isDark = state.theme === "dark";
   const [promoInput, setPromoInput] = useState("");
 
@@ -3369,7 +3359,7 @@ const CartDrawer: FC = () => {
 // ================================================================
 
 const CheckoutPage: FC = () => {
-  const { state, setState, cart, cartTotal, appliedPromo, toast, user, updateProfile } = useStore();
+const { state, setState, cart, cartTotal, appliedPromo, toast, user, updateProfile, clearCart } = useStore();
   const isDark = state.theme === "dark";
   const [step, setStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("stripe");
@@ -3430,6 +3420,7 @@ const CheckoutPage: FC = () => {
       orders: [newOrder, ...user.orders],
       loyaltyPoints: user.loyaltyPoints + Math.floor(finalTotal),
     });
+    clearCart(); 
 
     toast("Order placed successfully! 🎉", "success");
     setState((s) => ({ ...s, currentPage: "profile" }));
@@ -3612,7 +3603,7 @@ const CheckoutPage: FC = () => {
 // ================================================================
 
 const ProfilePage: FC = () => {
-  const { state, user, setUser, updateProfile, uploadAvatar, logout, toast } = useStore();
+   const { state, user, updateProfile, uploadAvatar, logout, toast } = useStore();
   const isDark = state.theme === "dark";
   const [activeTab, setActiveTab] = useState<"overview" | "orders" | "wishlist" | "settings">("overview");
   const fileInputRef = useRef<HTMLInputElement>(null);
