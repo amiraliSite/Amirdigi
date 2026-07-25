@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext, useContext, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 import { 
-  Moon, Sun, ShoppingCart, User, LogOut, X, Eye, EyeOff, 
+  Moon, Sun, ShoppingCart, LogOut, X, Eye, EyeOff, 
   Check, AlertCircle, Star, Zap, Truck, Shield, Headphones, 
   TrendingUp, Tag, Send, MapPin, Phone, Mail, Globe, 
   Home, ShoppingBag, Grid, Info, Layers, MessageCircle, 
