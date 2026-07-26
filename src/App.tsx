@@ -1745,7 +1745,7 @@ const Header: FC = () => {
               </motion.button>
 
               {/* User Avatar / Login Button */}
-              <div className="relative hidden">
+              <div className="relative hidden lg:block">
                 <motion.button
                   onClick={handleUserClick}
                   className={cn(
