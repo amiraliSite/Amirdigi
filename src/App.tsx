@@ -1711,19 +1711,19 @@ const Header: FC = () => {
 
             {/* Actions */}
             <div className="flex items-center gap-3">
-              <motion.button
-                onClick={() => setState((s) => ({ ...s, searchOpen: true }))}
-                className={cn(
-                  "p-2 rounded-full transition-colors",
-                  isDark
-                    ? "text-gray-300 hover:text-white hover:bg-white/10"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                )}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Icons.Search />
-              </motion.button>
+            <motion.button
+  onClick={() => setState((s) => ({ ...s, searchOpen: true }))}
+  className={cn(
+    "hidden sm:block p-2 rounded-full transition-colors",
+    isDark
+      ? "text-gray-300 hover:text-white hover:bg-white/10"
+      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+  )}
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+>
+  <Icons.Search />
+</motion.button>
 
               <motion.button
                 onClick={() =>
@@ -1745,7 +1745,7 @@ const Header: FC = () => {
               </motion.button>
 
               {/* User Avatar / Login Button */}
-              <div className="relative">
+              <div className="relative hidden">
                 <motion.button
                   onClick={handleUserClick}
                   className={cn(
@@ -1898,22 +1898,102 @@ const Header: FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col gap-6 mt-12">
-                {navItems.map((item) => (
-                  <button
-                    key={item.page}
-                    onClick={() => {
-                      setState((s) => ({ ...s, currentPage: item.page }));
-                      setMobileMenuOpen(false);
-                    }}
-                    className={cn(
-                      "text-lg font-medium tracking-wider text-left",
-                      isDark ? "text-gray-200" : "text-gray-800"
-                    )}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
+  {/* دکمه یوزر */}
+  <motion.button
+    onClick={() => {
+      setMobileMenuOpen(false);
+      if (user) {
+        setState((s) => ({ ...s, currentPage: "profile", previousPage: s.currentPage }));
+      } else {
+        setState((s) => ({ ...s, currentPage: "auth", previousPage: s.currentPage }));
+      }
+    }}
+    className={cn(
+      "flex items-center gap-3 p-3 rounded-xl transition-colors",
+      isDark ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-100 hover:bg-gray-200"
+    )}
+    whileTap={{ scale: 0.98 }}
+  >
+    {user ? (
+      <>
+        <img
+          src={user.avatar}
+          alt={user.firstName}
+          className="w-10 h-10 rounded-full object-cover ring-2 ring-amber-500/50"
+        />
+        <div className="text-left flex-1">
+          <p className={cn("text-sm font-semibold", isDark ? "text-white" : "text-gray-900")}>
+            {user.firstName} {user.lastName}
+          </p>
+          <p className={cn("text-xs truncate", isDark ? "text-gray-400" : "text-gray-500")}>
+            {user.email}
+          </p>
+        </div>
+        <Icons.ChevronRight className={cn("w-5 h-5", isDark ? "text-gray-400" : "text-gray-500")} />
+      </>
+    ) : (
+      <>
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+          <Icons.User className="w-5 h-5 text-white" />
+        </div>
+        <div className="text-left flex-1">
+          <p className={cn("text-sm font-semibold", isDark ? "text-white" : "text-gray-900")}>
+            Sign In
+          </p>
+          <p className={cn("text-xs", isDark ? "text-gray-400" : "text-gray-500")}>
+            or Register
+          </p>
+        </div>
+        <Icons.ChevronRight className={cn("w-5 h-5", isDark ? "text-gray-400" : "text-gray-500")} />
+      </>
+    )}
+  </motion.button>
+
+  {/* ✅ دکمه سرچ - جدید */}
+  <motion.button
+    onClick={() => {
+      setMobileMenuOpen(false);
+      setState((s) => ({ ...s, searchOpen: true }));
+    }}
+    className={cn(
+      "flex items-center gap-3 p-3 rounded-xl transition-colors",
+      isDark ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-100 hover:bg-gray-200"
+    )}
+    whileTap={{ scale: 0.98 }}
+  >
+    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+      <Icons.Search className="w-5 h-5 text-white" />
+    </div>
+    <div className="text-left flex-1">
+      <p className={cn("text-sm font-semibold", isDark ? "text-white" : "text-gray-900")}>
+        Search Products
+      </p>
+      <p className={cn("text-xs", isDark ? "text-gray-400" : "text-gray-500")}>
+        Find what you're looking for
+      </p>
+    </div>
+    <Icons.ChevronRight className={cn("w-5 h-5", isDark ? "text-gray-400" : "text-gray-500")} />
+  </motion.button>
+
+  <div className={cn("h-px", isDark ? "bg-gray-800" : "bg-gray-200")} />
+
+  {/* منوی قبلی */}
+  {navItems.map((item) => (
+    <button
+      key={item.page}
+      onClick={() => {
+        setState((s) => ({ ...s, currentPage: item.page }));
+        setMobileMenuOpen(false);
+      }}
+      className={cn(
+        "text-lg font-medium tracking-wider text-left",
+        isDark ? "text-gray-200" : "text-gray-800"
+      )}
+    >
+      {item.label}
+    </button>
+  ))}
+</div>
             </motion.div>
           </motion.div>
         )}
